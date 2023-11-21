@@ -1,8 +1,7 @@
-package com.makaia.test.rest;
+package com.makaia.test.rest.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -22,6 +21,13 @@ public class MakaiaApiExceptionHandler {
 
     @ExceptionHandler(value = { NoSuchElementException.class })
     public ResponseEntity<Object> handleNoSuchElement(NoSuchElementException e){
+        MakaiaErrorResponse error = new MakaiaErrorResponse("Error inesperado: " + e.getMessage(), 404, ZonedDateTime.now(ZoneId.of("Z")));
+
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = { ArithmeticException.class })
+    public ResponseEntity<Object> zeroDivision(NoSuchElementException e){
         MakaiaErrorResponse error = new MakaiaErrorResponse("Error inesperado: " + e.getMessage(), 404, ZonedDateTime.now(ZoneId.of("Z")));
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);

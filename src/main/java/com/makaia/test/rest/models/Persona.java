@@ -1,4 +1,4 @@
-package com.makaia.test.rest;
+package com.makaia.test.rest.models;
 
 public class Persona {
     private String nombre;
@@ -46,5 +46,16 @@ public class Persona {
 
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", cedula='" + cedula + '\'' +
+                ", ciudad='" + ciudad + '\'' +
+                '}';
     }
 }

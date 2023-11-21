@@ -1,4 +1,4 @@
-package com.makaia.test.rest;
+package com.makaia.test.rest.exceptions;
 
 import java.time.ZonedDateTime;
 

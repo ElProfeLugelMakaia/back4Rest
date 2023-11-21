@@ -1,13 +1,11 @@
-package com.makaia.test.rest;
+package com.makaia.test.rest.controllers;
 
+import com.makaia.test.rest.services.PersonasService;
+import com.makaia.test.rest.models.Persona;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/personas")
