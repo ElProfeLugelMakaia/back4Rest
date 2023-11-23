@@ -2,6 +2,7 @@ package com.makaia.test.rest.services;
 
 import com.makaia.test.rest.exceptions.MakaiaApiException;
 import com.makaia.test.rest.models.Persona;
+import com.makaia.test.rest.repositories.PersonaRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,33 +12,28 @@ import java.util.Optional;
 @Service
 public class PersonasService {
 
-    List<Persona> personas; // Repository
+    PersonaRespository repository;
 
     @Autowired
-    public PersonasService() {
-        this.personas = new ArrayList<>();
+    public PersonasService(PersonaRespository repository) {
+        this.repository = repository;
     }
 
     public Persona crearPersona(Persona persona){
         if(persona.getNombre() == null || persona.getNombre().equals("")){
             throw new RuntimeException("El nombre es obligatorio");
         }
-        this.personas.add(persona);
+        this.repository.crearPersona(persona);
         return persona;
     }
 
 
     public List<Persona> listarPersonas(){
-        return this.personas;
+        return this.repository.listarPersonas();
     }
 
     public Persona getPersonaPorId(String id){
-        Optional<Persona> optPersonal = this.personas.stream().filter(p-> p.getCedula().equals(id)).findFirst();
-        if(optPersonal.isEmpty()){
-            throw new MakaiaApiException("Persona no existe");
-
-        }
-        return optPersonal.get();
+        return this.repository.getPersonaPorId(id);
     }
 
 }

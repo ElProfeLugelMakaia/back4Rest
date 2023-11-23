@@ -1,5 +1,6 @@
 package com.makaia.test.rest.controllers;
 
+import com.makaia.test.rest.repositories.PersonaRespository;
 import com.makaia.test.rest.services.PersonasService;
 import com.makaia.test.rest.models.Persona;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class PersonasController {
 
     @PostMapping()
     public Persona crearPersona(@RequestBody() Persona persona){
+
         Persona result = service.crearPersona(persona);
         return result;
     }
