@@ -1,6 +1,5 @@
 package com.makaia.test.rest.repositories;
 
-import com.makaia.test.rest.exceptions.MakaiaApiException;
 import com.makaia.test.rest.models.Persona;
 
 import java.util.ArrayList;
@@ -14,20 +13,16 @@ public class PersonaRespository {
         this.personas = new ArrayList<>();
     }
 
-    public void crearPersona(Persona persona){
+    public Persona crearPersona(Persona persona){
         this.personas.add(persona);
+        return persona;
     }
 
     public List<Persona> listarPersonas(){
         return this.personas;
     }
 
-    public Persona getPersonaPorId(String id){
-        Optional<Persona> optPersonal = this.personas.stream().filter(p-> p.getCedula().equals(id)).findFirst();
-        if(optPersonal.isEmpty()){
-            throw new MakaiaApiException("Persona no existe");
-
-        }
-        return optPersonal.get();
+    public Optional<Persona> getPersonaPorId(String id){
+        return this.personas.stream().filter(p-> p.getCedula().equals(id)).findFirst();
     }
 }

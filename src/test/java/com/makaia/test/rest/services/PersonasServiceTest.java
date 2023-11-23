@@ -7,9 +7,10 @@ import com.makaia.test.rest.repositories.PersonaRespository;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
 import org.mockito.mock.*;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,11 +52,9 @@ class PersonasServiceTest {
                 .build();
         Mockito.when(this.respository.crearPersona(carlos)).thenReturn(carlos);
 
-        service.crearPersona(carlos);
+        Persona carlosResult = service.crearPersona(carlos);
 
-        List<Persona> personas = service.listarPersonas();
-        boolean carlosExiste = personas.contains(carlos);
-        assertTrue(carlosExiste);
+        assertEquals(carlosResult, carlos);
     }
 
     @Test
@@ -87,27 +86,14 @@ class PersonasServiceTest {
     @Test
     void listarPersonasDebeRetornarCarlosYDavidCuandoSeAgregaronPreviamente() {
         // Arrange
-        int expectedListSize = 2;
-        Persona carlos = builder
-                .carlos()
-                .build();
-        Persona david = builder
-                .withNombre("David")
-                .withApellido("De los Rios")
-                .withCedula("52345623")
-                .withCiudad("Medellín")
-                .build();
-
-        service.crearPersona(carlos);
-        service.crearPersona(david);
+        List<Persona> expectedListaPersona = new ArrayList<>();
+        Mockito.when(this.respository.listarPersonas()).thenReturn(expectedListaPersona);
 
         // Act
-        List<Persona> listaPersonas = service.listarPersonas();
+        List<Persona> listaPersonasResult = service.listarPersonas();
 
         // Assert
-        assertTrue(listaPersonas.contains(carlos));
-        assertTrue(listaPersonas.contains(david));
-        assertEquals(expectedListSize, listaPersonas.size());
+        assertSame(expectedListaPersona, listaPersonasResult);
     }
 
     @Test
@@ -116,25 +102,30 @@ class PersonasServiceTest {
         Persona carlos = builder
                 .carlos()
                 .build();
-        service.crearPersona(carlos);
+        //service.crearPersona(carlos);
+        Mockito.when(this.respository.getPersonaPorId(carlos.getCedula())).thenReturn(Optional.of(carlos));
 
         // Act
         Persona result = service.getPersonaPorId(carlos.getCedula());
 
         // Assert
-        assertEquals(carlos, result);
+        assertSame(carlos, result);
     }
 
 
     @Test
     void getPersonaPorIdLanzaMakaiaApiExceptionCuandoNoExisteElId(){
         // Arrange
+        String cedula = "123455";
+        Mockito
+                .when(this.respository.getPersonaPorId(cedula))
+                .thenReturn(Optional.empty());
 
         // Assert
         assertThrows(MakaiaApiException.class,
                 ()->
                         // Act
-                        service.getPersonaPorId("123455")
+                        service.getPersonaPorId(cedula)
                 );
     }
 

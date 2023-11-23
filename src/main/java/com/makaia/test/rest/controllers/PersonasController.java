@@ -3,11 +3,13 @@ package com.makaia.test.rest.controllers;
 import com.makaia.test.rest.repositories.PersonaRespository;
 import com.makaia.test.rest.services.PersonasService;
 import com.makaia.test.rest.models.Persona;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("api/v1/personas")
 public class PersonasController {

@@ -14,7 +14,9 @@ public class PersonasService {
 
     PersonaRespository repository;
 
-    @Autowired
+    public PersonasService() {
+        this.repository = new PersonaRespository();
+    }
     public PersonasService(PersonaRespository repository) {
         this.repository = repository;
     }
@@ -23,18 +25,19 @@ public class PersonasService {
         if(persona.getNombre() == null || persona.getNombre().equals("")){
             throw new RuntimeException("El nombre es obligatorio");
         }
-        this.repository.crearPersona(persona);
-        return persona;
+        return this.repository.crearPersona(persona);
     }
-
 
     public List<Persona> listarPersonas(){
         return this.repository.listarPersonas();
     }
 
     public Persona getPersonaPorId(String id){
-        return this.repository.getPersonaPorId(id);
+        Optional<Persona> optPersonal = this.repository.getPersonaPorId(id);
+        if(optPersonal.isEmpty()){
+            throw new MakaiaApiException("Persona no existe");
+        }
+        return optPersonal.get();
     }
-
 }
 
