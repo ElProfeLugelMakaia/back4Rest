@@ -41,6 +41,6 @@ public class PersonaBuilder {
     }
 
     public Persona build() {
-        return new Persona(this.nombre, this.apellido, this.cedula, this.ciudad);
+        return new Persona(0, this.nombre, this.apellido, this.cedula, this.ciudad);
     }
 }

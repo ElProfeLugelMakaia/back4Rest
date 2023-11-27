@@ -14,26 +14,30 @@ public class PersonasService {
 
     PersonaRespository repository;
 
-    public PersonasService() {
-        this.repository = new PersonaRespository();
-    }
+    @Autowired
     public PersonasService(PersonaRespository repository) {
+
         this.repository = repository;
     }
 
-    public Persona crearPersona(Persona persona){
-        if(persona.getNombre() == null || persona.getNombre().equals("")){
-            throw new RuntimeException("El nombre es obligatorio");
+    public Persona crearPersona(Persona persona) {
+        Optional<Persona> exists = this.repository.findById(persona.getId());
+
+        if(exists.isPresent()){
+            throw new MakaiaApiException("La Persona ya existe");
         }
-        return this.repository.crearPersona(persona);
+        if(persona.getNombre() == null || persona.getNombre().equals("")){
+            throw new MakaiaApiException("El nombre es obligatorio");
+        }
+        return this.repository.save(persona);
     }
 
     public List<Persona> listarPersonas(){
-        return this.repository.listarPersonas();
+        return this.repository.findAll();
     }
 
-    public Persona getPersonaPorId(String id){
-        Optional<Persona> optPersonal = this.repository.getPersonaPorId(id);
+    public Persona getPersonaPorId(Long id){
+        Optional<Persona> optPersonal = this.repository.findById(id);
         if(optPersonal.isEmpty()){
             throw new MakaiaApiException("Persona no existe");
         }

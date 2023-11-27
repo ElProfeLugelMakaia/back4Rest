@@ -1,18 +1,42 @@
 package com.makaia.test.rest.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "persona")
 public class Persona {
-    private String nombre;
-    private String apellido;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @Column
     private String cedula;
+
+    @Column
+    private String nombre;
+
+    @Column
+    private String apellido;
+
+    @Column
     private String ciudad;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String cedula, String ciudad) {
+    public Persona(long id, String cedula, String nombre, String apellido, String ciudad) {
+        this.id = id;
+        this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.cedula = cedula;
         this.ciudad = ciudad;
     }
 

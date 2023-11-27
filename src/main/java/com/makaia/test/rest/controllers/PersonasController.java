@@ -1,6 +1,5 @@
 package com.makaia.test.rest.controllers;
 
-import com.makaia.test.rest.repositories.PersonaRespository;
 import com.makaia.test.rest.services.PersonasService;
 import com.makaia.test.rest.models.Persona;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,7 @@ public class PersonasController {
 
     @PostMapping()
     public Persona crearPersona(@RequestBody() Persona persona){
-
+        log.debug("Start crearPersona process");
         Persona result = service.crearPersona(persona);
         return result;
     }
@@ -34,7 +33,7 @@ public class PersonasController {
     }
 
     @GetMapping("/{id}")
-    public Persona getPersonaPorId(@PathVariable("id") String id){
+    public Persona getPersonaPorId(@PathVariable("id") Long id){
         //try {
             Persona result = service.getPersonaPorId(id);
             return result;

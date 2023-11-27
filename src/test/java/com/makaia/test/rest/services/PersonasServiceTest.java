@@ -1,6 +1,7 @@
 package com.makaia.test.rest.services;
 
 import com.makaia.test.rest.builders.PersonaBuilder;
+import com.makaia.test.rest.controllers.PersonasController;
 import com.makaia.test.rest.exceptions.MakaiaApiException;
 import com.makaia.test.rest.models.Persona;
 import com.makaia.test.rest.repositories.PersonaRespository;
@@ -9,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import org.mockito.mock.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -20,24 +23,29 @@ class PersonasServiceTest {
     static PersonaBuilder builder;
     PersonaRespository respository;
 
+    static Logger logger = LoggerFactory.getLogger(PersonasServiceTest.class);
+
     @BeforeAll
     static void beforeAll(){
-        System.out.println("Se ejecuta antes de TODAS las pruebas");
+
+        Logger root = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+
+
+
+        logger.debug("Se ejecuta antes de TODAS las pruebas");
         builder = new PersonaBuilder();
     }
 
     @AfterAll
     static void afterAll(){
-        System.out.println("Se ejecuta después de TODAS las pruebas");
+        logger.warn("Se ejecuta después de TODAS las pruebas");
     }
 
     @BeforeEach
     void beforeEach() {
-
-
         respository = Mockito.mock(PersonaRespository.class);
         this.service = new PersonasService(respository);
-        System.out.println("Se ejecuta antes de cada prueba");
+        logger.info("Se ejecuta antes de cada prueba");
     }
 
     @AfterEach
@@ -50,7 +58,7 @@ class PersonasServiceTest {
         Persona carlos = builder
                 .carlos()
                 .build();
-        Mockito.when(this.respository.crearPersona(carlos)).thenReturn(carlos);
+        Mockito.when(this.respository.save(carlos)).thenReturn(carlos);
 
         Persona carlosResult = service.crearPersona(carlos);
 
